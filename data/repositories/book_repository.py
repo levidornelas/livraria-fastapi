@@ -1,13 +1,10 @@
 from sqlmodel import Session, select
 from typing import List, Optional
 from data.models import Book
-from sqlalchemy.orm import selectinload
 
 def get_all_books(session: Session) -> List[Book]:
-    statement = select(Book).options(selectinload(Book.author))
+    statement = select(Book)
     exec = session.exec(statement).all()
-    for book in exec:
-        print(f"Book: {book.title}, Author: {book.author.name}")
     return exec
 
 def get_book_by_id(session: Session, book_id: int) -> Optional[Book]:

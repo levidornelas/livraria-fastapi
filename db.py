@@ -1,7 +1,5 @@
 from sqlmodel import SQLModel, create_engine, Session
 from data.models import Book
-from data.models import Author
-from data.models import User
 
 sqlite_file_name = 'library.db'
 sqlite_url = f'sqlite:///{sqlite_file_name}'

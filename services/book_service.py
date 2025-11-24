@@ -1,7 +1,6 @@
 from sqlmodel import Session
 from typing import List
 from data.models.book import Book, BookCreate, BookUpdate
-from data.models.author import Author
 from data.repositories.book_repository import (
     get_all_books,
     get_book_by_id,
@@ -21,24 +20,13 @@ def get_book(session: Session, book_id: int) -> Book:
     return book
 
 def create_new_book(session: Session, book_data: BookCreate) -> Book:
-    if book_data.author:
-        new_author = Author(name=book_data.author.name)
-        session.add(new_author)
-        session.commit()
-        session.refresh(new_author)
-        author_id = new_author.id
-    elif book_data.author_id:
-        author_id = book_data.author_id
-    else:
-        raise HTTPException(status_code=400, detail="Informe author_id ou author")
-
     book = Book(
         title=book_data.title,
         pages=book_data.pages,
         publication_date=book_data.publication_date,
         price=book_data.price,
         image_url=book_data.image_url,
-        author_id=author_id
+        author=book_data.author
     )
 
     return repo_create_book(session, book)
